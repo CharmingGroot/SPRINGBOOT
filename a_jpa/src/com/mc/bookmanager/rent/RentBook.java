@@ -8,38 +8,77 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import com.mc.bookmanager.book.Book;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity
+@DynamicInsert // insert 쿼리를 생성할 때 null인 필드는 쿼리에서 생략
+@DynamicUpdate // entity에서 변경이 발견되지 않은 값은 쿼리에서 생략
+@Builder @NoArgsConstructor @AllArgsConstructor @Getter
 public class RentBook {
 
-	@Id
-	@GeneratedValue
-	private Long rbIdx;
+   @Id
+   @GeneratedValue
+   private Long rbIdx;
+   
+   @Column(columnDefinition = "timestamp default now()")
+   private LocalDateTime regDate;
+   
+   private String state;
+   
+   @Column(columnDefinition = "timestamp")
+   private LocalDateTime returnDate;
+   
+   @ColumnDefault("0")
+   private Integer extenstionCnt; // 연장 횟수
+   
+   @ManyToOne
+   @JoinColumn(name="bkIdx")
+   private Book book;
+   
+   @ManyToOne()
+   @JoinColumn(name="rmIdx")
+   private Rent rent;
+ 
 
-	@Column(columnDefinition = "timestamp default now()")
-	private LocalDateTime regDate;
-	
-	private String state;
 
-	@Column(columnDefinition = "timestamp")
-	private LocalDateTime returnDate;
 
-	@ColumnDefault("0")
-	private int extenstionCnt; // 연장 횟수
+public static RentBook createRentBook(Rent rent, Book book, String state) {
+	return RentBook.builder()
+			.rent(rent)
+			.book(book)
+			.state(state)
+			.build();
+}
 
-	@ManyToOne
-	@JoinColumn(name = "bkIdx")
-	private Book book;
 
-	@ManyToOne
-	@JoinColumn(name = "rmIdx")
-	private Rent rent;
 
+
+public void returnRentBook(String state, LocalDateTime returnDate) {
+	this.state = state;
+	this.returnDate = returnDate;
+}
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 }

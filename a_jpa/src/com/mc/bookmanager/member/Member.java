@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -19,6 +21,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @DynamicInsert // insert 쿼리를 생성할 때 null인 필드는 쿼리에서 생략
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Builder @NoArgsConstructor @AllArgsConstructor @Getter
 public class Member {
 	
