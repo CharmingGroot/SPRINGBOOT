@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body th:with="var='<i>내가 제일 좋아하는 언어 점수</i>'">
+	<h1>thymeleaf 공부하기</h1>
+	<h2>1. 변수선언 / 출력</h2>
+	<pre>
+		변수 선언 : th:with
+		변수 출력 : ${...}
+		
+		1. 변수 스코프는 html 요소의 영역을 따라감.
+		선조요소에서 선언된 변수를 사용할 수 있다.
+		형제요소나 후손요소에서 선언된 변수는 사용할 수 없음.
+	
+		2. || : 변수를 문자열 리터럴과 결합하기 위해서는 || 를 사용해야한다.
+		
+	
+	
+	
+	
+	</pre>
+	<span th:text="${var}">타임리프 적용 전</span>
+
+	<h2>2. 인라인 표현식</h2>
+	<pre>
+		겹 [] 를 사용해 인라인 표현식을 작성할 수 있음
+	</pre>
+	<span> [[${var}]] 100점 </span>
+
+	<h2>3. 선택 변수 표현식 *{...}</h2>
+
+	<ol th:object="${userInfo}">
+		<li th:text="${userInfo.userId}"></li>
+		<li th:text="*{password}"></li>
+		<li th:text="*{tell}"></li>
+		<li th:text="*{regDate}"></li>
+	</ol>
+
+
+	<h2>4. 링크 표현식 @{...}</h2>
+
+	<pre>
+		링크 표현식의 장점
+		1. context path를 자동으로 작성해준다.
+		2. url queryString을 편하게 쓸 수 있다.
+		
+	</pre>
+
+	<a th:href="@{/}">welcome 페이지로 가기</a>
+	<a th:href="@{https://www.naver.com(name=mc,age=15)}">파라미터 여러개 보내기</a>
+	<a th:href="@{https://www.naver.com(name=${userInfo.userId})}">파라미터
+		여러개 보내기</a>
+
+
+
+	<h2>unescape처리</h2>
+	<pre>
+		1. th:utext
+		2. 인라인 표현식 : unescape
+	</pre>
+
+	<p th:utext="${var}"></p>
+	<p>인라인 표현식으로 unescape : [${var}]</p>
+
+
+	<h2>6. th:attr 속성</h2>
+
+	<div style="background-color: yellow"
+		th:attr="style='background-color:red'">dd</div>
+	<div style="background-color: yellow"
+		th:attrappend="style='; color:blue'">dd</div>
+
+	<div style="background-color:yellow"
+		th:attrprepend="style='color:pink'">dd</div>
+
+<hr>
+	<h2>7. 조건문</h2>
+	<h3>if / unless</h3>
+	<p th:if="${score >= 60}"> 결과 : 합격</p>
+	<p th:if="${score < 60}"> 결과 : 불합격</p>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
